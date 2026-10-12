@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jungle Math Adventure</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/themes.css">
+</head>
+<body class="screen-opening">
+  <main id="app">
+    <button id="soundToggle" class="sound-toggle" type="button"
+      aria-label="Matikan musik" title="Musik">🔊</button>
+
+    <section id="openingScreen" class="game-screen opening-screen">
+      <img
+        class="game-logo"
+        src="assets/images/icons/logo-jungle-math-adventure.png"
+        alt="Jungle Math Adventure"
+      >
+
+      <p class="game-subtitle">Petualangan Perkalian dan Pembagian</p>
+
+      <button id="startGameBtn" class="btn btn-primary btn-start" type="button">
+        MULAI PETUALANGAN
+      </button>
+    </section>
+
+    <section id="playerNameScreen" class="game-screen player-name-screen" hidden>
+      <div class="name-card">
+        <h1>Siapa Nama Penjelajah Kita?</h1>
+        <p>Masukkan namamu sebelum memulai petualangan.</p>
+
+        <form id="playerNameForm">
+          <label for="playerName">Nama Pemain</label>
+          <input
+            id="playerName"
+            name="playerName"
+            type="text"
+            maxlength="20"
+            autocomplete="off"
+            placeholder="Tulis nama di sini"
+            required
+          >
+          <p id="nameError" class="form-error" role="alert"></p>
+          <button class="btn btn-primary" type="submit">LANJUT</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="characterSelectScreen" class="game-screen character-select-screen" hidden>
+      <div class="character-select-wrap">
+        <div class="character-heading">
+          <p id="characterGreeting" class="character-greeting">Halo, Penjelajah!</p>
+          <h1>Pilih Karaktermu</h1>
+          <p>Pilih satu penjelajah yang akan menemanimu menjelajahi hutan matematika.</p>
+        </div>
+
+        <div class="character-grid" role="radiogroup" aria-label="Pilihan karakter">
+          <button class="character-card" type="button" data-character="explorer-boy-01"
+            role="radio" aria-checked="false">
+            <img src="assets/images/characters/explorer-boy-01.png" alt="Penjelajah laki-laki 1">
+            <span>Arkan</span>
+          </button>
+
+          <button class="character-card" type="button" data-character="explorer-boy-02"
+            role="radio" aria-checked="false">
+            <img src="assets/images/characters/explorer-boy-02.png" alt="Penjelajah laki-laki 2">
+            <span>Halim</span>
+          </button>
+
+          <button class="character-card" type="button" data-character="explorer-girl-01"
+            role="radio" aria-checked="false">
+            <img src="assets/images/characters/explorer-girl-01.png" alt="Penjelajah perempuan 1">
+            <span>Komala</span>
+          </button>
+
+          <button class="character-card" type="button" data-character="explorer-girl-02"
+            role="radio" aria-checked="false">
+            <img src="assets/images/characters/explorer-girl-02.png" alt="Penjelajah perempuan 2">
+            <span>Medina</span>
+          </button>
+        </div>
+
+        <p id="characterStatus" class="character-status" aria-live="polite">
+          Belum ada karakter yang dipilih.
+        </p>
+
+        <button id="confirmCharacterBtn" class="btn btn-primary character-confirm" type="button" disabled>
+          PILIH KARAKTER INI
+        </button>
+      </div>
+    </section>
+
+    <section id="mainMenuScreen" class="game-screen main-menu-screen" hidden>
+      <div class="main-menu-layout">
+        <aside class="player-panel" aria-label="Informasi pemain">
+          <div class="player-avatar-frame">
+            <img id="menuPlayerAvatar" src="" alt="Karakter pemain">
+          </div>
+
+          <div class="player-panel-text">
+            <p class="player-welcome">Selamat datang,</p>
+            <h1 id="menuPlayerName">Penjelajah</h1>
+            <p id="menuCharacterName" class="player-character-name">Penjelajah Hutan</p>
+          </div>
+
+          <div class="player-stats">
+            <div class="stat-chip">
+              <img src="assets/images/icons/icon-star.png" alt="">
+              <div>
+                <span>Bintang</span>
+                <strong id="menuStars">0</strong>
+              </div>
+            </div>
+
+            <div class="stat-chip">
+              <img src="assets/images/icons/icon-coin.png" alt="">
+              <div>
+                <span>Koin Rimba</span>
+                <strong id="menuCoins">0</strong>
+              </div>
+            </div>
+
+            <div class="stat-chip">
+              <img src="assets/images/icons/icon-level.png" alt="">
+              <div>
+                <span>Level</span>
+                <strong id="menuLevel">1</strong>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <section class="menu-panel" aria-label="Menu utama">
+          <div class="menu-title">
+            <img src="assets/images/icons/logo-jungle-math-adventure.png" alt="Jungle Math Adventure">
+            <p>Pilih tujuan petualanganmu.</p>
+          </div>
+
+          <div class="menu-grid">
+            <button class="menu-button menu-button-primary" type="button" data-menu-action="continue">
+              <img src="assets/images/icons/icon-play.png" alt="">
+              <span>
+                <strong>Lanjutkan Petualangan</strong>
+                <small>Masuk ke level terakhir</small>
+              </span>
+            </button>
+
+            <button class="menu-button" type="button" data-menu-action="map">
+              <img src="assets/images/icons/icon-map.png" alt="">
+              <span>
+                <strong>Peta Hutan</strong>
+                <small>Lihat 6 wilayah</small>
+              </span>
+            </button>
+
+            <button class="menu-button" type="button" data-menu-action="achievement">
+              <img src="assets/images/icons/icon-achievement.png" alt="">
+              <span>
+                <strong>Prestasi</strong>
+                <small>Lihat pencapaianmu</small>
+              </span>
+            </button>
+
+            <button class="menu-button" type="button" data-menu-action="collection">
+              <img src="assets/images/icons/icon-collection.png" alt="">
+              <span>
+                <strong>Koleksi</strong>
+                <small>Badge dan hadiah</small>
+              </span>
+            </button>
+
+            <button class="menu-button" type="button" data-menu-action="help">
+              <img src="assets/images/icons/icon-help.png" alt="">
+              <span>
+                <strong>Petunjuk</strong>
+                <small>Cara bermain</small>
+              </span>
+            </button>
+
+            <button class="menu-button" type="button" data-menu-action="settings">
+              <img src="assets/images/icons/icon-settings.png" alt="">
+              <span>
+                <strong>Pengaturan</strong>
+                <small>Audio dan permainan</small>
+              </span>
+            </button>
+          </div>
+
+
+          <button class="menu-button menu-profile-button" type="button" data-menu-action="profile">
+            <span class="menu-profile-icon" aria-hidden="true">👤</span>
+            <span>
+              <strong>Profil Pengembang</strong>
+              <small>Informasi pembuat media</small>
+            </span>
+          </button>
+
+          <p id="menuMessage" class="menu-message" aria-live="polite">
+            Siap menjelajahi Hutan Matematika!
+          </p>
+        </section>
+      </div>
+    </section>
+
+    <!-- ===================== PROFIL PENGEMBANG ===================== -->
+    <section id="profileScreen" class="game-screen profile-screen" hidden>
+      <div class="profile-page-shell">
+        <button id="profileBackBtn" class="profile-back-btn" type="button" aria-label="Kembali ke Menu Utama">
+          <span aria-hidden="true">←</span>
+          <strong>Menu Utama</strong>
+        </button>
+
+        <div class="profile-image-frame">
+          <img
+            src="assets/images/profil/profile-developer.webp"
+            alt="Profil Pengembang Jungle Math Adventure"
+            class="profile-developer-image"
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PRESTASI ===================== -->
+    <section id="achievementScreen" class="game-screen utility-screen achievement-screen" hidden>
+      <div class="utility-shell">
+        <header class="utility-header">
+          <button id="achievementBackBtn" class="utility-back-btn" type="button" aria-label="Kembali ke Menu Utama">
+            <span aria-hidden="true">←</span>
+            <strong>Menu Utama</strong>
+          </button>
+          <div class="utility-title">
+            <span class="utility-title-icon">🏆</span>
+            <div>
+              <h1>Prestasi</h1>
+              <p>Pantau pencapaian selama petualangan matematika.</p>
+            </div>
+          </div>
+          <div class="utility-summary">
+            <strong id="achievementUnlockedCount">0/10</strong>
+            <span>Terbuka</span>
+          </div>
+        </header>
+
+        <div class="achievement-overview">
+          <div>
+            <span>Total Bintang</span>
+            <strong id="achievementStars">0</strong>
+          </div>
+          <div>
+            <span>Koin Rimba</span>
+            <strong id="achievementCoins">0</strong>
+          </div>
+          <div>
+            <span>Wilayah Selesai</span>
+            <strong id="achievementWorlds">0/6</strong>
+          </div>
+        </div>
+
+        <div id="achievementGrid" class="achievement-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ===================== KOLEKSI ===================== -->
+    <section id="collectionScreen" class="game-screen utility-screen collection-screen" hidden>
+      <div class="utility-shell">
+        <header class="utility-header">
+          <button id="collectionBackBtn" class="utility-back-btn" type="button" aria-label="Kembali ke Menu Utama">
+            <span aria-hidden="true">←</span>
+            <strong>Menu Utama</strong>
+          </button>
+          <div class="utility-title">
+            <span class="utility-title-icon">🎒</span>
+            <div>
+              <h1>Koleksi</h1>
+              <p>Lencana dan hadiah yang telah ditemukan.</p>
+            </div>
+          </div>
+          <div class="utility-summary">
+            <strong id="collectionUnlockedCount">0/6</strong>
+            <span>Terkumpul</span>
+          </div>
+        </header>
+
+        <div id="collectionGrid" class="collection-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ===================== PETUNJUK ===================== -->
+    <section id="helpScreen" class="game-screen utility-screen help-screen" hidden>
+      <div class="utility-shell">
+        <header class="utility-header">
+          <button id="helpBackBtn" class="utility-back-btn" type="button" aria-label="Kembali ke Menu Utama">
+            <span aria-hidden="true">←</span>
+            <strong>Menu Utama</strong>
+          </button>
+          <div class="utility-title">
+            <span class="utility-title-icon">📘</span>
+            <div>
+              <h1>Petunjuk Bermain</h1>
+              <p>Pahami aturan agar petualangan berjalan lancar.</p>
+            </div>
+          </div>
+          <div class="utility-summary help-summary">
+            <strong>JMA</strong>
+            <span>Panduan</span>
+          </div>
+        </header>
+
+        <div class="help-grid">
+          <article class="help-card">
+            <span>🎯</span>
+            <h2>Tujuan Level</h2>
+            <p>Level biasa berisi 8 soal. Kamu perlu minimal 6 jawaban benar untuk lulus.</p>
+          </article>
+          <article class="help-card">
+            <span>👑</span>
+            <h2>Boss Challenge</h2>
+            <p>Boss berisi 10 soal. Minimal 8 jawaban benar diperlukan untuk mengalahkan penjaga wilayah.</p>
+          </article>
+          <article class="help-card">
+            <span>⭐</span>
+            <h2>Bintang</h2>
+            <p>Level biasa: 6 benar = 1★, 7 benar = 2★, 8 benar = 3★. Boss: 8, 9, dan 10 benar.</p>
+          </article>
+          <article class="help-card">
+            <span>❤️</span>
+            <h2>Energi</h2>
+            <p>Kamu memiliki 3 energi. Jawaban salah mengurangi energi. Saat habis, gunakan pemulihan untuk mencoba lagi.</p>
+          </article>
+          <article class="help-card">
+            <span>💡</span>
+            <h2>Petunjuk</h2>
+            <p>Maksimal 2 petunjuk tersedia pada setiap level. Menggunakan petunjuk membatasi skor soal menjadi maksimal 75 poin.</p>
+          </article>
+          <article class="help-card">
+            <span>🔥</span>
+            <h2>Combo</h2>
+            <p>Setiap 3 jawaban benar beruntun memberikan bonus 25 poin.</p>
+          </article>
+          <article class="help-card">
+            <span>🪙</span>
+            <h2>Koin</h2>
+            <p>Jawaban benar menghasilkan 5 koin. Menyelesaikan level dan memperoleh 3 bintang memberikan bonus tambahan.</p>
+          </article>
+          <article class="help-card">
+            <span>🗺️</span>
+            <h2>Membuka Wilayah</h2>
+            <p>Selesaikan Boss pada akhir setiap wilayah untuk membuka wilayah berikutnya di Peta Dunia.</p>
+          </article>
+          <article class="help-card help-card-wide">
+            <span>✅</span>
+            <h2>Jenis Soal</h2>
+            <p>Pilihan Ganda: pilih satu jawaban. Pilihan Ganda Kompleks: pilih semua jawaban yang benar. Isian Singkat: ketik jawaban angka.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PENGATURAN ===================== -->
+    <section id="settingsScreen" class="game-screen utility-screen settings-screen" hidden>
+      <div class="utility-shell">
+        <header class="utility-header">
+          <button id="settingsBackBtn" class="utility-back-btn" type="button" aria-label="Kembali ke Menu Utama">
+            <span aria-hidden="true">←</span>
+            <strong>Menu Utama</strong>
+          </button>
+          <div class="utility-title">
+            <span class="utility-title-icon">⚙️</span>
+            <div>
+              <h1>Pengaturan</h1>
+              <p>Atur audio dan progres permainan.</p>
+            </div>
+          </div>
+          <div class="utility-summary settings-state">
+            <strong id="settingsAudioState">AKTIF</strong>
+            <span>Audio</span>
+          </div>
+        </header>
+
+        <div class="settings-panel">
+          <div class="setting-row">
+            <div class="setting-copy">
+              <strong>Audio Utama</strong>
+              <span>Mengaktifkan atau mematikan seluruh suara permainan.</span>
+            </div>
+            <button id="masterAudioBtn" class="setting-toggle" type="button" aria-pressed="true">ON</button>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-copy">
+              <strong>Musik</strong>
+              <span>Musik latar pada menu, peta, dan wilayah.</span>
+            </div>
+            <button id="musicAudioBtn" class="setting-toggle" type="button" aria-pressed="true">ON</button>
+          </div>
+
+          <div class="setting-row setting-range-row">
+            <div class="setting-copy">
+              <strong>Volume Musik</strong>
+              <span>Atur keras lembutnya musik latar.</span>
+            </div>
+            <div class="setting-range-wrap">
+              <input id="musicVolumeRange" type="range" min="0" max="100" step="1" value="42" aria-label="Volume Musik">
+              <strong id="musicVolumeValue">42%</strong>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-copy">
+              <strong>Efek Suara</strong>
+              <span>Suara klik, jawaban benar/salah, koin, dan penyelesaian level.</span>
+            </div>
+            <button id="sfxAudioBtn" class="setting-toggle" type="button" aria-pressed="true">ON</button>
+          </div>
+
+          <div class="setting-row setting-range-row">
+            <div class="setting-copy">
+              <strong>Volume Efek</strong>
+              <span>Atur volume efek suara permainan.</span>
+            </div>
+            <div class="setting-range-wrap">
+              <input id="sfxVolumeRange" type="range" min="0" max="100" step="1" value="62" aria-label="Volume Efek">
+              <strong id="sfxVolumeValue">62%</strong>
+            </div>
+          </div>
+
+          <div class="setting-row danger-row">
+            <div class="setting-copy">
+              <strong>Reset Progres</strong>
+              <span>Menghapus bintang, koin, level, dan progres wilayah. Nama pemain dan karakter tetap disimpan.</span>
+            </div>
+            <button id="resetProgressBtn" class="reset-progress-btn" type="button">RESET PROGRES</button>
+          </div>
+
+          <p id="settingsMessage" class="settings-message" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+
+
+    <section id="worldMapScreen" class="game-screen world-map-screen" hidden>
+      <div class="map-topbar">
+        <button id="mapBackBtn" class="map-back-btn" type="button" aria-label="Kembali ke menu utama">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14.8 5.2 8 12l6.8 6.8-1.6 1.6L4.8 12l8.4-8.4 1.6 1.6Z"/>
+          </svg>
+          <span>Kembali</span>
+        </button>
+
+        <div class="map-player-info" aria-label="Informasi pemain">
+          <span id="mapPlayerName" class="map-player-name">Penjelajah</span>
+          <span class="map-stat">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m12 2.5 2.85 5.78 6.38.93-4.62 4.5 1.09 6.36L12 17.07l-5.7 3 1.09-6.36-4.62-4.5 6.38-.93L12 2.5Z"/>
+            </svg>
+            <strong id="mapStars">0</strong>
+          </span>
+          <span class="map-stat map-coin-stat">
+            <span class="map-coin-dot">C</span>
+            <strong id="mapCoins">0</strong>
+          </span>
+        </div>
+      </div>
+
+      <div class="map-heading">
+        <h1>Peta Hutan</h1>
+        <p>Selesaikan Boss setiap wilayah untuk membuka perjalanan berikutnya.</p>
+      </div>
+
+      <div class="world-map-board" aria-label="Peta enam wilayah Jungle Math Adventure">
+        <button class="region-node region-bamboo" type="button" data-world="1"
+          data-world-name="Hutan Bambu" aria-label="Hutan Bambu">
+          <img src="assets/images/maps/region-bamboo.png" alt="">
+          <span class="region-label">Hutan Bambu</span>
+          <span class="region-status" aria-hidden="true"></span>
+        </button>
+
+        <button class="region-node region-river" type="button" data-world="2"
+          data-world-name="Sungai Angka" aria-label="Sungai Angka">
+          <img src="assets/images/maps/region-river.png" alt="">
+          <span class="region-label">Sungai Angka</span>
+          <span class="region-status" aria-hidden="true"></span>
+        </button>
+
+        <button class="region-node region-crystal" type="button" data-world="3"
+          data-world-name="Gua Kristal" aria-label="Gua Kristal">
+          <img src="assets/images/maps/region-crystal.png" alt="">
+          <span class="region-label">Gua Kristal</span>
+          <span class="region-status" aria-hidden="true"></span>
+        </button>
+
+        <button class="region-node region-swamp" type="button" data-world="4"
+          data-world-name="Rawa Misteri" aria-label="Rawa Misteri">
+          <img src="assets/images/maps/region-swamp.png" alt="">
+          <span class="region-label">Rawa Misteri</span>
+          <span class="region-status" aria-hidden="true"></span>
+        </button>
+
+        <button class="region-node region-mist" type="button" data-world="5"
+          data-world-name="Hutan Kabut" aria-label="Hutan Kabut">
+          <img src="assets/images/maps/region-mist.png" alt="">
+          <span class="region-label">Hutan Kabut</span>
+          <span class="region-status" aria-hidden="true"></span>
+        </button>
+
+        <button class="region-node region-mountain" type="button" data-world="6"
+          data-world-name="Gunung Penjaga" aria-label="Gunung Penjaga">
+          <img src="assets/images/maps/region-mountain.png" alt="">
+          <span class="region-label">Gunung Penjaga</span>
+          <span class="region-status" aria-hidden="true"></span>
+        </button>
+
+        <div id="mapPlayerMarker" class="map-player-marker" aria-hidden="true">
+          <img id="mapPlayerAvatar" src="" alt="">
+        </div>
+      </div>
+
+      <div class="map-legend" aria-label="Keterangan status wilayah">
+        <span><i class="legend-dot open"></i> Terbuka</span>
+        <span><i class="legend-dot locked"></i> Terkunci</span>
+        <span><i class="legend-dot complete"></i> Selesai</span>
+      </div>
+
+      <p id="mapMessage" class="map-message" aria-live="polite">
+        Hutan Bambu sudah terbuka. Mulai petualanganmu dari sini.
+      </p>
+    </section>
+
+
+    <section id="bambooScreen" class="game-screen bamboo-screen" hidden>
+      <div class="bamboo-topbar">
+        <button id="bambooBackBtn" class="bamboo-back-btn" type="button" aria-label="Kembali ke Peta Hutan">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14.8 5.2 8 12l6.8 6.8-1.6 1.6L4.8 12l8.4-8.4 1.6 1.6Z"/>
+          </svg>
+          <span>Peta Hutan</span>
+        </button>
+
+        <div class="bamboo-title-box">
+          <span class="bamboo-title-icon">🎋</span>
+          <div>
+            <h1>Hutan Bambu</h1>
+            <p>Wilayah 1 • Perkalian Dasar</p>
+          </div>
+        </div>
+
+        <div class="bamboo-stats" aria-label="Statistik Hutan Bambu">
+          <span class="bamboo-stat">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m12 2.5 2.85 5.78 6.38.93-4.62 4.5 1.09 6.36L12 17.07l-5.7 3 1.09-6.36-4.62-4.5 6.38-.93L12 2.5Z"/>
+            </svg>
+            <strong id="bambooTotalStars">0</strong>
+          </span>
+          <span class="bamboo-stat">
+            <span class="bamboo-coin">C</span>
+            <strong id="bambooCoins">0</strong>
+          </span>
+        </div>
+      </div>
+
+      <div class="bamboo-map-board" aria-label="Peta level Hutan Bambu">
+        <button class="bamboo-level-node level-1" type="button" data-level="1" aria-label="Level 1 Jejak Bambu">
+          <span class="level-number">1</span>
+          <span class="level-lock" aria-hidden="true"></span>
+          <span class="level-stars" aria-hidden="true"></span>
+          <span class="level-name">Jejak Bambu</span>
+        </button>
+
+        <button class="bamboo-level-node level-2" type="button" data-level="2" aria-label="Level 2 Sarang Burung">
+          <span class="level-number">2</span>
+          <span class="level-lock" aria-hidden="true"></span>
+          <span class="level-stars" aria-hidden="true"></span>
+          <span class="level-name">Sarang Burung</span>
+        </button>
+
+        <button class="bamboo-level-node level-3" type="button" data-level="3" aria-label="Level 3 Jalan Bambu">
+          <span class="level-number">3</span>
+          <span class="level-lock" aria-hidden="true"></span>
+          <span class="level-stars" aria-hidden="true"></span>
+          <span class="level-name">Jalan Bambu</span>
+        </button>
+
+        <button class="bamboo-level-node level-4" type="button" data-level="4" aria-label="Level 4 Gerbang Tersembunyi">
+          <span class="level-number">4</span>
+          <span class="level-lock" aria-hidden="true"></span>
+          <span class="level-stars" aria-hidden="true"></span>
+          <span class="level-name">Gerbang Tersembunyi</span>
+        </button>
+
+        <button class="bamboo-level-node bamboo-boss-node level-5" type="button" data-level="5" aria-label="Level 5 Boss Penjaga Bambu">
+          <span class="boss-badge">BOSS</span>
+          <span class="level-number">5</span>
+          <span class="level-lock" aria-hidden="true"></span>
+          <span class="level-stars" aria-hidden="true"></span>
+          <span class="level-name">Penjaga Bambu</span>
+        </button>
+
+        <img
+          id="bambooGuardian"
+          class="bamboo-guardian"
+          src="assets/images/animals/guardian-panda.png"
+          alt="Penjaga Panda Hutan Bambu"
+        >
+
+        <div id="bambooPlayerMarker" class="bamboo-player-marker" aria-hidden="true">
+          <img id="bambooPlayerAvatar" src="" alt="">
+        </div>
+      </div>
+
+      <section id="bambooLevelPanel" class="bamboo-level-panel" aria-live="polite">
+        <div class="level-panel-main">
+          <p id="bambooLevelEyebrow" class="level-panel-eyebrow">LEVEL 1</p>
+          <h2 id="bambooLevelTitle">Jejak Bambu</h2>
+          <p id="bambooLevelTopic" class="level-panel-topic">Perkalian 1–5</p>
+
+          <div class="level-panel-meta">
+            <span><strong id="bambooQuestionCount">8</strong> soal</span>
+            <span>Target <strong id="bambooPassTarget">6</strong> benar</span>
+            <span id="bambooLevelBest">Belum dimainkan</span>
+          </div>
+
+          <p id="bambooLevelDescription" class="level-panel-description">
+            Mulai dari perkalian sederhana untuk membuka jalur petualangan.
+          </p>
+        </div>
+
+        <div class="level-panel-action">
+          <button id="bambooStartLevelBtn" class="btn btn-primary bamboo-start-level" type="button">
+            MULAI LEVEL
+          </button>
+          <p id="bambooLevelMessage" class="bamboo-level-message">
+            Level 1 terbuka.
+          </p>
+        </div>
+      </section>
+    </section>
+
+
+
+    <section id="riverScreen" class="game-screen river-screen" hidden>
+      <div class="river-topbar">
+        <button id="riverBackBtn" class="river-back-btn" type="button" aria-label="Kembali ke Peta Hutan">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14.8 5.2 8 12l6.8 6.8-1.6 1.6L4.8 12l8.4-8.4 1.6 1.6Z"/>
+          </svg>
+          <span>Peta Hutan</span>
+        </button>
+
+        <div class="river-title-box">
+          <span class="river-title-icon">🌊</span>
+          <div>
+            <h1>Sungai Angka</h1>
+            <p>Wilayah 2 • Pembagian Dasar</p>
+          </div>
+        </div>
+
+        <div class="river-stats" aria-label="Statistik Sungai Angka">
+          <span class="river-stat">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m12 2.5 2.85 5.78 6.38.93-4.62 4.5 1.09 6.36L12 17.07l-5.7 3 1.09-6.36-4.62-4.5 6.38-.93L12 2.5Z"/>
+            </svg>
+            <strong id="riverTotalStars">0</strong>
+          </span>
+          <span class="river-stat">
+            <span class="river-coin">C</span>
+            <strong id="riverCoins">0</strong>
+          </span>
+        </div>
+      </div>
+
+      <div class="river-map-board" aria-label="Peta level Sungai Angka">
+        <button class="river-level-node river-level-6" type="button" data-level="6" aria-label="Level 6 Arus Pembagian">
+          <span class="river-level-number">6</span>
+          <span class="river-level-lock" aria-hidden="true"></span>
+          <span class="river-level-stars" aria-hidden="true"></span>
+          <span class="river-level-name">Arus Pembagian</span>
+        </button>
+
+        <button class="river-level-node river-level-7" type="button" data-level="7" aria-label="Level 7 Batu Angka">
+          <span class="river-level-number">7</span>
+          <span class="river-level-lock" aria-hidden="true"></span>
+          <span class="river-level-stars" aria-hidden="true"></span>
+          <span class="river-level-name">Batu Angka</span>
+        </button>
+
+        <button class="river-level-node river-level-8" type="button" data-level="8" aria-label="Level 8 Jembatan Operasi">
+          <span class="river-level-number">8</span>
+          <span class="river-level-lock" aria-hidden="true"></span>
+          <span class="river-level-stars" aria-hidden="true"></span>
+          <span class="river-level-name">Jembatan Operasi</span>
+        </button>
+
+        <button class="river-level-node river-level-9" type="button" data-level="9" aria-label="Level 9 Sungai Rahasia">
+          <span class="river-level-number">9</span>
+          <span class="river-level-lock" aria-hidden="true"></span>
+          <span class="river-level-stars" aria-hidden="true"></span>
+          <span class="river-level-name">Sungai Rahasia</span>
+        </button>
+
+        <button class="river-level-node river-boss-node river-level-10" type="button" data-level="10" aria-label="Level 10 Boss Penjaga Sungai">
+          <span class="river-boss-badge">BOSS</span>
+          <span class="river-level-number">10</span>
+          <span class="river-level-lock" aria-hidden="true"></span>
+          <span class="river-level-stars" aria-hidden="true"></span>
+          <span class="river-level-name">Penjaga Sungai</span>
+        </button>
+
+        <img id="riverGuardian" class="river-guardian" src="assets/images/animals/guardian-crocodile.png" alt="Penjaga Buaya Sungai Angka">
+
+        <div id="riverPlayerMarker" class="river-player-marker" aria-hidden="true">
+          <img id="riverPlayerAvatar" src="" alt="">
+        </div>
+      </div>
+
+      <section id="riverLevelPanel" class="river-level-panel" aria-live="polite">
+        <div class="river-panel-main">
+          <p id="riverLevelEyebrow" class="river-panel-eyebrow">LEVEL 6</p>
+          <h2 id="riverLevelTitle">Arus Pembagian</h2>
+          <p id="riverLevelTopic" class="river-panel-topic">Pembagian sebagai Pengelompokan</p>
+
+          <div class="river-panel-meta">
+            <span><strong id="riverQuestionCount">8</strong> soal</span>
+            <span>Target <strong id="riverPassTarget">6</strong> benar</span>
+            <span id="riverLevelBest">Belum dimainkan</span>
+          </div>
+
+          <p id="riverLevelDescription" class="river-panel-description">
+            Pahami pembagian sebagai proses membagi benda menjadi kelompok yang sama banyak.
+          </p>
+        </div>
+
+        <div class="river-panel-action">
+          <button id="riverStartLevelBtn" class="btn btn-primary river-start-level" type="button">MULAI LEVEL</button>
+          <p id="riverLevelMessage" class="river-level-message">Level 6 terbuka.</p>
+        </div>
+      </section>
+    </section>
+
+    
+    <section id="crystalScreen" class="game-screen crystal-screen" hidden>
+      <div class="crystal-topbar">
+        <button id="crystalBackBtn" class="crystal-back-btn" type="button" aria-label="Kembali ke Peta Dunia">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14.8 5.2 8 12l6.8 6.8-1.6 1.6L4.8 12l8.4-8.4 1.6 1.6Z"/>
+          </svg>
+          <span>Peta Dunia</span>
+        </button>
+
+        <div class="crystal-title-box">
+          <span class="crystal-title-icon">💎</span>
+          <div>
+            <h1>Gua Kristal</h1>
+            <p>Wilayah 3 • Perkalian Lanjutan</p>
+          </div>
+        </div>
+
+        <div class="crystal-stats" aria-label="Statistik Gua Kristal">
+          <span class="crystal-stat">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m12 2.5 2.85 5.78 6.38.93-4.62 4.5 1.09 6.36L12 17.07l-5.7 3 1.09-6.36-4.62-4.5 6.38-.93L12 2.5Z"/>
+            </svg>
+            <strong id="crystalTotalStars">0</strong>
+          </span>
+          <span class="crystal-stat">
+            <span class="crystal-coin">C</span>
+            <strong id="crystalCoins">0</strong>
+          </span>
+        </div>
+      </div>
+
+      <div class="crystal-map-board" aria-label="Peta level Gua Kristal">
+        <button class="crystal-level-node crystal-level-11" type="button" data-level="11" aria-label="Level 11 Lorong Kristal">
+          <span class="crystal-level-number">11</span>
+          <span class="crystal-level-lock" aria-hidden="true"></span>
+          <span class="crystal-level-stars" aria-hidden="true"></span>
+          <span class="crystal-level-name">Lorong Kristal</span>
+        </button>
+
+        <button class="crystal-level-node crystal-level-12" type="button" data-level="12" aria-label="Level 12 Kristal Raksasa">
+          <span class="crystal-level-number">12</span>
+          <span class="crystal-level-lock" aria-hidden="true"></span>
+          <span class="crystal-level-stars" aria-hidden="true"></span>
+          <span class="crystal-level-name">Kristal Raksasa</span>
+        </button>
+
+        <button class="crystal-level-node crystal-level-13" type="button" data-level="13" aria-label="Level 13 Cahaya Kristal">
+          <span class="crystal-level-number">13</span>
+          <span class="crystal-level-lock" aria-hidden="true"></span>
+          <span class="crystal-level-stars" aria-hidden="true"></span>
+          <span class="crystal-level-name">Cahaya Kristal</span>
+        </button>
+
+        <button class="crystal-level-node crystal-level-14" type="button" data-level="14" aria-label="Level 14 Ruang Kristal">
+          <span class="crystal-level-number">14</span>
+          <span class="crystal-level-lock" aria-hidden="true"></span>
+          <span class="crystal-level-stars" aria-hidden="true"></span>
+          <span class="crystal-level-name">Ruang Kristal</span>
+        </button>
+
+        <button class="crystal-level-node crystal-boss-node crystal-level-15" type="button" data-level="15" aria-label="Level 15 Boss Penjaga Gua">
+          <span class="crystal-boss-badge">BOSS</span>
+          <span class="crystal-level-number">15</span>
+          <span class="crystal-level-lock" aria-hidden="true"></span>
+          <span class="crystal-level-stars" aria-hidden="true"></span>
+          <span class="crystal-level-name">Penjaga Gua</span>
+        </button>
+
+        <img id="crystalGuardian" class="crystal-guardian" src="assets/images/animals/guardian-bat.png" alt="Kelelawar Penjaga Gua Kristal">
+
+        <div id="crystalPlayerMarker" class="crystal-player-marker" aria-hidden="true">
+          <img id="crystalPlayerAvatar" src="" alt="">
+        </div>
+      </div>
+
+      <section id="crystalLevelPanel" class="crystal-level-panel" aria-live="polite">
+        <div class="crystal-panel-main">
+          <p id="crystalLevelEyebrow" class="crystal-panel-eyebrow">LEVEL 11</p>
+          <h2 id="crystalLevelTitle">Lorong Kristal</h2>
+          <p id="crystalLevelTopic" class="crystal-panel-topic">Perkalian Dua Digit × Satu Digit</p>
+
+          <div class="crystal-panel-meta">
+            <span><strong id="crystalQuestionCount">8</strong> soal</span>
+            <span>Target <strong id="crystalPassTarget">6</strong> benar</span>
+            <span id="crystalLevelBest">Belum dimainkan</span>
+          </div>
+
+          <p id="crystalLevelDescription" class="crystal-panel-description">
+            Kuasai perkalian dua digit dengan satu digit untuk memasuki lorong kristal.
+          </p>
+        </div>
+
+        <div class="crystal-panel-action">
+          <button id="crystalStartLevelBtn" class="btn btn-primary crystal-start-level" type="button">MULAI LEVEL</button>
+          <p id="crystalLevelMessage" class="crystal-level-message">Level 11 terbuka.</p>
+        </div>
+      </section>
+    </section>
+
+
+    <section id="swampScreen" class="game-screen swamp-screen" hidden>
+      <div class="swamp-topbar">
+        <button id="swampBackBtn" class="swamp-back-btn" type="button" aria-label="Kembali ke Peta Dunia">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14.8 5.2 8 12l6.8 6.8-1.6 1.6L4.8 12l8.4-8.4 1.6 1.6Z"/>
+          </svg>
+          <span>Peta Dunia</span>
+        </button>
+
+        <div class="swamp-title-box">
+          <span class="swamp-title-icon">🌿</span>
+          <div>
+            <h1>Rawa Misteri</h1>
+            <p>Wilayah 4 • Pembagian Lanjutan</p>
+          </div>
+        </div>
+
+        <div class="swamp-stats" aria-label="Statistik Rawa Misteri">
+          <span class="swamp-stat">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m12 2.5 2.85 5.78 6.38.93-4.62 4.5 1.09 6.36L12 17.07l-5.7 3 1.09-6.36-4.62-4.5 6.38-.93L12 2.5Z"/>
+            </svg>
+            <strong id="swampTotalStars">0</strong>
+          </span>
+          <span class="swamp-stat">
+            <span class="swamp-coin">C</span>
+            <strong id="swampCoins">0</strong>
+          </span>
+        </div>
+      </div>
+
+      <div class="swamp-map-board" aria-label="Peta level Rawa Misteri">
+        <button class="swamp-level-node swamp-level-16" type="button" data-level="16" aria-label="Level 16 Jejak Lumpur">
+          <span class="swamp-level-number">16</span>
+          <span class="swamp-level-lock" aria-hidden="true"></span>
+          <span class="swamp-level-stars" aria-hidden="true"></span>
+          <span class="swamp-level-name">Jejak Lumpur</span>
+        </button>
+
+        <button class="swamp-level-node swamp-level-17" type="button" data-level="17" aria-label="Level 17 Kolam Angka">
+          <span class="swamp-level-number">17</span>
+          <span class="swamp-level-lock" aria-hidden="true"></span>
+          <span class="swamp-level-stars" aria-hidden="true"></span>
+          <span class="swamp-level-name">Kolam Angka</span>
+        </button>
+
+        <button class="swamp-level-node swamp-level-18" type="button" data-level="18" aria-label="Level 18 Akar Rahasia">
+          <span class="swamp-level-number">18</span>
+          <span class="swamp-level-lock" aria-hidden="true"></span>
+          <span class="swamp-level-stars" aria-hidden="true"></span>
+          <span class="swamp-level-name">Akar Rahasia</span>
+        </button>
+
+        <button class="swamp-level-node swamp-level-19" type="button" data-level="19" aria-label="Level 19 Kabut Pembagian">
+          <span class="swamp-level-number">19</span>
+          <span class="swamp-level-lock" aria-hidden="true"></span>
+          <span class="swamp-level-stars" aria-hidden="true"></span>
+          <span class="swamp-level-name">Kabut Pembagian</span>
+        </button>
+
+        <button class="swamp-level-node swamp-boss-node swamp-level-20" type="button" data-level="20" aria-label="Level 20 Boss Penjaga Rawa">
+          <span class="swamp-boss-badge">BOSS</span>
+          <span class="swamp-level-number">20</span>
+          <span class="swamp-level-lock" aria-hidden="true"></span>
+          <span class="swamp-level-stars" aria-hidden="true"></span>
+          <span class="swamp-level-name">Penjaga Rawa</span>
+        </button>
+
+        <img id="swampGuardian" class="swamp-guardian" src="assets/images/animals/guardian-frog.png" alt="Katak Penjaga Rawa Misteri">
+
+        <div id="swampPlayerMarker" class="swamp-player-marker" aria-hidden="true">
+          <img id="swampPlayerAvatar" src="" alt="">
+        </div>
+      </div>
+
+      <section id="swampLevelPanel" class="swamp-level-panel" aria-live="polite">
+        <div class="swamp-panel-main">
+          <p id="swampLevelEyebrow" class="swamp-panel-eyebrow">LEVEL 16</p>
+          <h2 id="swampLevelTitle">Jejak Lumpur</h2>
+          <p id="swampLevelTopic" class="swamp-panel-topic">Pembagian Dua Digit ÷ Satu Digit</p>
+
+          <div class="swamp-panel-meta">
+            <span><strong id="swampQuestionCount">8</strong> soal</span>
+            <span>Target <strong id="swampPassTarget">6</strong> benar</span>
+            <span id="swampLevelBest">Belum dimainkan</span>
+          </div>
+
+          <p id="swampLevelDescription" class="swamp-panel-description">
+            Gunakan strategi pembagian dua digit dengan satu digit untuk menemukan jalur aman di rawa.
+          </p>
+        </div>
+
+        <div class="swamp-panel-action">
+          <button id="swampStartLevelBtn" class="btn btn-primary swamp-start-level" type="button">MULAI LEVEL</button>
+          <p id="swampLevelMessage" class="swamp-level-message">Level 16 terbuka.</p>
+        </div>
+      </section>
+    </section>
+
+
+    <section id="mistScreen" class="game-screen mist-screen" hidden>
+      <div class="mist-topbar">
+        <button id="mistBackBtn" class="mist-back-btn" type="button" aria-label="Kembali ke Peta Dunia">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14.8 5.2 8 12l6.8 6.8-1.6 1.6L4.8 12l8.4-8.4 1.6 1.6Z"/>
+          </svg>
+          <span>Peta Dunia</span>
+        </button>
+
+        <div class="mist-title-box">
+          <span class="mist-title-icon">🌫️</span>
+          <div>
+            <h1>Hutan Kabut</h1>
+            <p>Wilayah 5 • Perkalian & Pembagian Campuran</p>
+          </div>
+        </div>
+
+        <div class="mist-stats" aria-label="Statistik Hutan Kabut">
+          <span class="mist-stat">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m12 2.5 2.85 5.78 6.38.93-4.62 4.5 1.09 6.36L12 17.07l-5.7 3 1.09-6.36-4.62-4.5 6.38-.93L12 2.5Z"/>
+            </svg>
+            <strong id="mistTotalStars">0</strong>
+          </span>
+          <span class="mist-stat">
+            <span class="mist-coin">C</span>
+            <strong id="mistCoins">0</strong>
+          </span>
+        </div>
+      </div>
+
+      <div class="mist-map-board" aria-label="Peta level Hutan Kabut">
+        <button class="mist-level-node mist-level-21" type="button" data-level="21" aria-label="Level 21 Jejak di Kabut">
+          <span class="mist-level-number">21</span>
+          <span class="mist-level-lock" aria-hidden="true"></span>
+          <span class="mist-level-stars" aria-hidden="true"></span>
+          <span class="mist-level-name">Jejak di Kabut</span>
+        </button>
+
+        <button class="mist-level-node mist-level-22" type="button" data-level="22" aria-label="Level 22 Pohon Bayangan">
+          <span class="mist-level-number">22</span>
+          <span class="mist-level-lock" aria-hidden="true"></span>
+          <span class="mist-level-stars" aria-hidden="true"></span>
+          <span class="mist-level-name">Pohon Bayangan</span>
+        </button>
+
+        <button class="mist-level-node mist-level-23" type="button" data-level="23" aria-label="Level 23 Jalan Tersembunyi">
+          <span class="mist-level-number">23</span>
+          <span class="mist-level-lock" aria-hidden="true"></span>
+          <span class="mist-level-stars" aria-hidden="true"></span>
+          <span class="mist-level-name">Jalan Tersembunyi</span>
+        </button>
+
+        <button class="mist-level-node mist-level-24" type="button" data-level="24" aria-label="Level 24 Kabut Berwaktu">
+          <span class="mist-level-number">24</span>
+          <span class="mist-level-lock" aria-hidden="true"></span>
+          <span class="mist-level-stars" aria-hidden="true"></span>
+          <span class="mist-level-name">Kabut Berwaktu</span>
+        </button>
+
+        <button class="mist-level-node mist-boss-node mist-level-25" type="button" data-level="25" aria-label="Level 25 Boss Penjaga Kabut">
+          <span class="mist-boss-badge">BOSS</span>
+          <span class="mist-level-number">25</span>
+          <span class="mist-level-lock" aria-hidden="true"></span>
+          <span class="mist-level-stars" aria-hidden="true"></span>
+          <span class="mist-level-name">Penjaga Kabut</span>
+        </button>
+
+        <img id="mistGuardian" class="mist-guardian" src="assets/images/animals/guardian-owl.png" alt="Burung Hantu Penjaga Hutan Kabut">
+
+        <div id="mistPlayerMarker" class="mist-player-marker" aria-hidden="true">
+          <img id="mistPlayerAvatar" src="" alt="">
+        </div>
+      </div>
+
+      <section id="mistLevelPanel" class="mist-level-panel" aria-live="polite">
+        <div class="mist-panel-main">
+          <p id="mistLevelEyebrow" class="mist-panel-eyebrow">LEVEL 21</p>
+          <h2 id="mistLevelTitle">Jejak di Kabut</h2>
+          <p id="mistLevelTopic" class="mist-panel-topic">Operasi Campuran Perkalian dan Pembagian</p>
+
+          <div class="mist-panel-meta">
+            <span><strong id="mistQuestionCount">8</strong> soal</span>
+            <span>Target <strong id="mistPassTarget">6</strong> benar</span>
+            <span id="mistLevelBest">Belum dimainkan</span>
+          </div>
+
+          <p id="mistLevelDescription" class="mist-panel-description">
+            Pecahkan operasi campuran perkalian dan pembagian untuk menemukan jejak yang tersembunyi di balik kabut.
+          </p>
+        </div>
+
+        <div class="mist-panel-action">
+          <button id="mistStartLevelBtn" class="btn btn-primary mist-start-level" type="button">MULAI LEVEL</button>
+          <p id="mistLevelMessage" class="mist-level-message">Level 21 terbuka.</p>
+        </div>
+      </section>
+    </section>
+
+
+    <section id="mountainScreen" class="game-screen mountain-screen" hidden>
+      <div class="mountain-topbar">
+        <button id="mountainBackBtn" class="mountain-back-btn" type="button" aria-label="Kembali ke Peta Dunia">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.8 5.2 8 12l6.8 6.8-1.6 1.6L4.8 12l8.4-8.4 1.6 1.6Z"/></svg>
+          <span>Peta Dunia</span>
+        </button>
+
+        <div class="mountain-title-box">
+          <span class="mountain-title-icon">⛰️</span>
+          <div>
+            <h1>Gunung Penjaga</h1>
+            <p>Wilayah 6 • Tantangan Akhir Perkalian & Pembagian</p>
+          </div>
+        </div>
+
+        <div class="mountain-stats" aria-label="Statistik Gunung Penjaga">
+          <span class="mountain-stat">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.85 5.78 6.38.93-4.62 4.5 1.09 6.36L12 17.07l-5.7 3 1.09-6.36-4.62-4.5 6.38-.93L12 2.5Z"/></svg>
+            <strong id="mountainTotalStars">0</strong>
+          </span>
+          <span class="mountain-stat"><span class="mountain-coin">C</span><strong id="mountainCoins">0</strong></span>
+        </div>
+      </div>
+
+      <div class="mountain-map-board" aria-label="Peta level Gunung Penjaga">
+        <button class="mountain-level-node mountain-level-26" type="button" data-level="26" aria-label="Level 26 Jalur Pendakian">
+          <span class="mountain-level-number">26</span><span class="mountain-level-lock" aria-hidden="true"></span><span class="mountain-level-stars" aria-hidden="true"></span><span class="mountain-level-name">Jalur Pendakian</span>
+        </button>
+        <button class="mountain-level-node mountain-level-27" type="button" data-level="27" aria-label="Level 27 Tebing Pembagian">
+          <span class="mountain-level-number">27</span><span class="mountain-level-lock" aria-hidden="true"></span><span class="mountain-level-stars" aria-hidden="true"></span><span class="mountain-level-name">Tebing Pembagian</span>
+        </button>
+        <button class="mountain-level-node mountain-level-28" type="button" data-level="28" aria-label="Level 28 Jembatan Strategi">
+          <span class="mountain-level-number">28</span><span class="mountain-level-lock" aria-hidden="true"></span><span class="mountain-level-stars" aria-hidden="true"></span><span class="mountain-level-name">Jembatan Strategi</span>
+        </button>
+        <button class="mountain-level-node mountain-level-29" type="button" data-level="29" aria-label="Level 29 Puncak Berwaktu">
+          <span class="mountain-level-number">29</span><span class="mountain-level-lock" aria-hidden="true"></span><span class="mountain-level-stars" aria-hidden="true"></span><span class="mountain-level-name">Puncak Berwaktu</span>
+        </button>
+        <button class="mountain-level-node mountain-boss-node mountain-level-30" type="button" data-level="30" aria-label="Level 30 Final Boss Penjaga Puncak">
+          <span class="mountain-boss-badge">FINAL BOSS</span><span class="mountain-level-number">30</span><span class="mountain-level-lock" aria-hidden="true"></span><span class="mountain-level-stars" aria-hidden="true"></span><span class="mountain-level-name">Penjaga Puncak</span>
+        </button>
+
+        <img id="mountainGuardian" class="mountain-guardian" src="assets/images/animals/guardian-eagle.png" alt="Elang Penjaga Puncak">
+        <div id="mountainPlayerMarker" class="mountain-player-marker" aria-hidden="true"><img id="mountainPlayerAvatar" src="" alt=""></div>
+      </div>
+
+      <section id="mountainLevelPanel" class="mountain-level-panel" aria-live="polite">
+        <div class="mountain-panel-main">
+          <p id="mountainLevelEyebrow" class="mountain-panel-eyebrow">LEVEL 26</p>
+          <h2 id="mountainLevelTitle">Jalur Pendakian</h2>
+          <p id="mountainLevelTopic" class="mountain-panel-topic">Soal Cerita Perkalian</p>
+          <div class="mountain-panel-meta">
+            <span><strong id="mountainQuestionCount">8</strong> soal</span>
+            <span>Target <strong id="mountainPassTarget">6</strong> benar</span>
+            <span id="mountainLevelBest">Belum dimainkan</span>
+          </div>
+          <p id="mountainLevelDescription" class="mountain-panel-description">Selesaikan soal cerita perkalian untuk memulai pendakian menuju puncak terakhir.</p>
+        </div>
+        <div class="mountain-panel-action">
+          <button id="mountainStartLevelBtn" class="btn btn-primary mountain-start-level" type="button">MULAI LEVEL</button>
+          <p id="mountainLevelMessage" class="mountain-level-message">Level 26 terbuka.</p>
+        </div>
+      </section>
+    </section>
+
+    <section id="victoryScreen" class="game-screen victory-screen" hidden>
+      <div class="victory-content">
+        <div class="victory-stats-card">
+          <p class="victory-kicker">JUNGLE MATH ADVENTURE</p>
+          <h1>Selamat, <span id="victoryPlayerName">Penjelajah</span>!</h1>
+          <p>Kamu telah menaklukkan seluruh wilayah dan menyelesaikan petualangan.</p>
+          <div class="victory-stat-row">
+            <span>⭐ <strong id="victoryStars">0</strong> Bintang</span>
+            <span>🪙 <strong id="victoryCoins">0</strong> Koin Rimba</span>
+          </div>
+          <div class="victory-actions">
+            <button id="victoryMapBtn" class="btn btn-secondary" type="button">LIHAT PETA DUNIA</button>
+            <button id="victoryMenuBtn" class="btn btn-primary" type="button">MENU UTAMA</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<section id="gameplayScreen" class="game-screen gameplay-screen" hidden>
+      <div class="gameplay-topbar">
+        <button id="gameplayBackBtn" class="gameplay-back-btn" type="button" aria-label="Kembali ke Hutan Bambu">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.8 5.2 8 12l6.8 6.8-1.6 1.6L4.8 12l8.4-8.4 1.6 1.6Z"/></svg>
+          <span>Hutan Bambu</span>
+        </button>
+        <div class="gameplay-title"><span>LEVEL 1</span><strong>Jejak Bambu</strong></div>
+        <div class="gameplay-question-counter">Soal <strong id="gameQuestionNumber">1</strong> / <strong id="gameQuestionTotal">8</strong></div>
+      </div>
+
+      <div class="gameplay-hud">
+        <div class="hud-group energy-hud"><span class="hud-label">Energi</span><div id="gameEnergy" class="energy-row" aria-live="polite"></div></div>
+        <div class="hud-group"><span class="hud-label">Skor</span><strong id="gameScore" class="hud-value">0</strong></div>
+        <div class="hud-group"><span class="hud-label">Koin</span><strong id="gameCoins" class="hud-value">0</strong></div>
+        <div class="hud-group"><span class="hud-label">Combo</span><strong id="gameCombo" class="hud-value">×0</strong></div>
+        <div id="gameTimerWrap" class="hud-group game-timer-hud"><span class="hud-label">Waktu</span><strong id="gameTimer" class="hud-value">20s</strong></div>
+      </div>
+
+      <div class="game-progress-track"><div id="gameProgressBar" class="game-progress-bar"></div></div>
+
+      <div class="gameplay-layout">
+        <aside class="gameplay-character-panel">
+          <img id="gamePlayerAvatar" src="" alt="Karakter pemain">
+          <div class="character-speech"><span id="gameCharacterSpeech">Ayo selesaikan tantangan pertama!</span></div>
+        </aside>
+        <section class="question-stage">
+          <div class="question-type-row">
+            <span id="gameQuestionType" class="question-type-badge">Pilihan Ganda</span>
+            <span id="gameInstruction" class="question-instruction">Pilih satu jawaban yang benar.</span>
+          </div>
+          <div class="question-card">
+            <h2 id="gameQuestionText">4 × 5 = ?</h2>
+            <div id="gameAnswerArea" class="answer-area"></div>
+            <div id="gameHintBox" class="hint-box" hidden><strong>💡 Petunjuk</strong><p id="gameHintText"></p></div>
+            <div class="question-actions">
+              <button id="gameHintBtn" class="game-secondary-btn" type="button">💡 PETUNJUK <span id="gameHintRemaining">(2)</span></button>
+              <button id="gameSubmitBtn" class="btn btn-primary game-submit-btn" type="button" disabled>PERIKSA JAWABAN</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="gameFeedbackOverlay" class="game-feedback-overlay" hidden>
+        <div id="gameFeedbackCard" class="game-feedback-card" role="status" aria-live="assertive">
+          <div id="gameFeedbackIcon" class="game-feedback-icon">✓</div>
+          <h2 id="gameFeedbackTitle">Hebat!</h2>
+          <p id="gameFeedbackText">Jawabanmu benar.</p>
+          <div id="gameFeedbackReward" class="game-feedback-reward"></div>
+          <button id="gameFeedbackBtn" class="btn btn-primary" type="button">LANJUT</button>
+        </div>
+      </div>
+
+      <div id="gameEnergyOverlay" class="game-feedback-overlay" hidden>
+        <div class="game-feedback-card energy-recovery-card" role="dialog" aria-modal="true">
+          <div class="game-feedback-icon">⚡</div><h2>Energi Penjelajah Habis</h2>
+          <p>Pelajari petunjuk singkat ini sebelum mencoba kembali.</p>
+          <div id="gameRecoveryTip" class="recovery-tip"></div>
+          <button id="gameRecoverBtn" class="btn btn-primary" type="button">PULIHKAN ENERGI</button>
+        </div>
+      </div>
+
+      <div id="levelResultPanel" class="level-result-panel" hidden>
+        <div class="result-card">
+          <p class="result-eyebrow">LEVEL 1 • JEJAK BAMBU</p><h1 id="resultTitle">Misi Selesai!</h1>
+          <div id="resultStars" class="result-stars">☆☆☆</div>
+          <div class="result-grid">
+            <div><span>Benar pertama kali</span><strong id="resultCorrect">0/8</strong></div>
+            <div><span>Kesalahan</span><strong id="resultWrong">0</strong></div>
+            <div><span>Skor</span><strong id="resultScore">0</strong></div>
+            <div><span>Koin diperoleh</span><strong id="resultCoins">0</strong></div>
+            <div><span>Combo terbaik</span><strong id="resultCombo">×0</strong></div>
+            <div><span>Status</span><strong id="resultStatus">Belum lulus</strong></div>
+          </div>
+          <p id="resultMessage" class="result-message"></p>
+          <div class="result-actions">
+            <button id="resultRetryBtn" class="game-secondary-btn result-button" type="button">ULANGI LEVEL</button>
+            <button id="resultBambooBtn" class="game-secondary-btn result-button" type="button">HUTAN BAMBU</button>
+            <button id="resultNextBtn" class="btn btn-primary result-button" type="button" disabled>LEVEL BERIKUTNYA</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/score.js"></script>
+  <script src="js/question.js"></script>
+  <script src="js/level.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

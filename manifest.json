@@ -1,0 +1,6 @@
+{
+  "name": "Jungle Math Adventure",
+  "short_name": "Jungle Math",
+  "start_url": "index.html",
+  "display": "standalone"
+}
